@@ -6,14 +6,14 @@ import './random-planet.css';
 
 export default class RandomPlanet extends Component {
   swapiService = new SwapiService();
-  constructor() {
-    super()
-    this.updatePlanet();
-  }
   state = {
     planet: {},
     loading: true,
     error: false
+  }
+  componentDidMount(){
+    this.updatePlanet();
+    setInterval(this.updatePlanet, 2500)
   }
   onPlanetLoaded = (planet) => {
     this.setState({
@@ -27,14 +27,15 @@ export default class RandomPlanet extends Component {
       loading: false
     })
   }
-  updatePlanet() {
-    const id = Math.floor(Math.random() * 25) + 2;
+  updatePlanet = () => {
+    const id = Math.floor(Math.random() * 25) + 3;
     this.swapiService
       .getPlanet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError)
   }
   render() {
+    console.log('render');
     const {planet, loading, error} = this.state;
 
     const hasData = !(loading || error);
