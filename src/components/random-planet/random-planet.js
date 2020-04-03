@@ -5,6 +5,9 @@ import ErrorIndicator from '../error-indicator';
 import './random-planet.css';
 
 export default class RandomPlanet extends Component {
+  static defaultProps = {
+    updateInterval: 10000
+  }
   swapiService = new SwapiService();
   state = {
     planet: {},
@@ -12,8 +15,9 @@ export default class RandomPlanet extends Component {
     error: false
   }
   componentDidMount(){
+    const { updateInterval } = this.props;
     this.updatePlanet();
-    this.interval = setInterval(this.updatePlanet, 2500)
+    this.interval = setInterval(this.updatePlanet, updateInterval)
   }
   componentWillUnmount() {
     clearInterval(this.interval);
